@@ -1,16 +1,18 @@
 import {hashdata, verifydata} from '../../../common/middleware/security/encryption.js'
 import {badrequestexception, conflictexception, notfoundexception} from '../../../common/response/error.response.js'
 import usermodel from '../../../database/model/user.model.js'
+import joi from 'joi'
 import {generateaccesstoken, generatetoken} from '../../../common/middleware/auth/auth.js'
 
 export const signup=async(data)=>{
-    let {name,email,password,uniqueaccname}=data
+    let {name,email,password,uniqueaccname,phone}=data
+ 
     let existeduser=await usermodel.findOne({email})
     if(existeduser){
         conflictexception({message:'user already exists'})
     }
     let encryptedpassword=await hashdata(password)
-    let addeduser=await usermodel.create({name,email,password:encryptedpassword,uniqueaccname})
+    let addeduser=await usermodel.create({name,email,password:encryptedpassword,uniqueaccname,phone})
     return addeduser
 }
 
@@ -28,13 +30,7 @@ export const login=async(data,host)=>{
     return {userdata,accesstoken,refreshtoken}
 }
 
-export const getuserdata=async(userid)=>{
-    let userdata=await usermodel.findById(userid)
-    if(!userdata){
-        notfoundexception({message:'user not found'})
-    }
-    return userdata
-}
+
 
 export const getaccesstoken=async(authorization,host)=>{
     let accesstoken=await generateaccesstoken(authorization,host)

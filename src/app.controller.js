@@ -4,6 +4,7 @@ import { successresponse } from './common/response/success.response.js'
 import { hashdata, verifydata } from './common/middleware/security/encryption.js'
 import { databaseconnection } from './database/connection.js'
 import authRouter from './database/module/auth/auth.controller.js'
+import userrouter from './database/module/user/user.controller.js'
 
 export const bootstrap=async()=>{
 
@@ -14,7 +15,7 @@ await databaseconnection()
 const app=express()
 
 app.use(express.json())
-
+app.use('/user',userrouter)
 
 app.use('/auth', authRouter)
 
