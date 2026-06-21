@@ -1,8 +1,8 @@
 import {Router} from 'express'
-import { successresponse } from '../../../common/response/success.response.js'
-import { getaccesstoken, login, signup } from './auth.service.js'
-import { auth } from '../../../common/middleware/auth/auth.js'
-import { validation } from '../../../common/middleware/validation.js'
+import { successresponse } from '../../common/response/success.response.js'
+import { getaccesstoken, login, signup, verifyaccount } from './auth.service.js'
+import { auth } from '../../common/middleware/auth/auth.js'
+import { validation } from '../../common/middleware/validation.js'
 import { loginschema, signupschema } from './auth.validation.js'
 
 const router=Router()
@@ -20,6 +20,11 @@ router.post('/signup',validation(signupschema),async(req,res)=>{
 router.post('/login',validation(loginschema),async(req,res)=>{
     let logindata=await login(req.body,req.get('host'))
     successresponse({res,message:'user login successfully',data:logindata})
+})
+
+router.post('/verify-account',async(req,res)=>{
+    let userdata=await verifyaccount(req.body)
+    successresponse({res,message:'account verified successfully',data:userdata})
 })
 
 

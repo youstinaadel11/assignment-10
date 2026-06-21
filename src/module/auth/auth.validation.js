@@ -12,7 +12,7 @@ import joi from 'joi'
     })
 
      export const loginschema=joi.object({
-        email:joi.string().email().required(),
+        email:joi.string().required(),
         password:joi.string().required().pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
         
     })

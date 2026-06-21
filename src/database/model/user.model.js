@@ -1,3 +1,4 @@
+import joi from 'joi'
 import moongose, { model, Schema } from 'mongoose'
 
 
@@ -31,6 +32,13 @@ uniqueaccname:{
 role:{
     type:Number,
     default:0
+},
+isverified:{
+    type:Boolean,
+    default:false,
+},
+otp:{
+    type:String
 }
 })
 

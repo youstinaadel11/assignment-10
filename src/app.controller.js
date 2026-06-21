@@ -3,8 +3,11 @@ import { globalhandlingerror, notfoundexception } from './common/response/error.
 import { successresponse } from './common/response/success.response.js'
 import { hashdata, verifydata } from './common/middleware/security/encryption.js'
 import { databaseconnection } from './database/connection.js'
-import authRouter from './database/module/auth/auth.controller.js'
-import userrouter from './database/module/user/user.controller.js'
+import authRouter from './module/auth/auth.controller.js'
+import userrouter from './module/user/user.controller.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
 
 export const bootstrap=async()=>{
 
@@ -12,7 +15,17 @@ export const bootstrap=async()=>{
     console.log(await verifydata('wkbwuibiwebf','$2b$08$DWI/fxRDpnBpNIKW38DNKOHGUKyK06bynCUEMndKClOIJ/7PX5QEy'))
 
 await databaseconnection()
+
+const __filename=fileURLToPath(import.meta.url)
+console.log(__filename);
+
+const __dirname=path.dirname(__filename)
+console.log(__dirname);
+
+
 const app=express()
+
+app.use('/uploads',express.static(path.join(__dirname,'../uploads')))
 
 app.use(express.json())
 app.use('/user',userrouter)
